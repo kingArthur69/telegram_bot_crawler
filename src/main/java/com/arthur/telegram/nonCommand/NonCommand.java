@@ -51,8 +51,9 @@ public class NonCommand {
 			throw new IllegalArgumentException("Сообщение не является текстом");
 		}
 
-		validateSettings();
-		return new Settings();
+		Settings settings = new Settings();
+		settings.setResultsLimit(Integer.valueOf(text));
+		return settings;
 	}
 
 	/**

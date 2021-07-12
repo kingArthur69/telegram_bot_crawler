@@ -26,11 +26,21 @@ public class CrawlerService {
 		return crawler.crawl(stringList);
 	}
 
-	public String showOptions(CrawlResult crawlResult) {
+	public String showOptionsNames(CrawlResult crawlResult) {
 		return StringUtils.join(crawlResult.getOptions().keySet(), "\n");
 	}
 
-	public String showFoundObjects(CrawlResult crawlResult) {
-		return StringUtils.substring(StringUtils.join(crawlResult.getFoundObjects().values(), "\n"), 0, 200);
+	public List<String> showOptionsKeyboard(CrawlResult crawlResult, String command, String[] strings) {
+		String sendParameters = Arrays.stream(strings)
+				.map(s -> replaceSpaces(s))
+				.collect(Collectors.joining(" "));
+
+		String previousCommand = "/" + command + " " + sendParameters + " ";
+		return crawlResult.getOptions().keySet().stream().map(entry -> previousCommand + replaceSpaces(entry))
+				.collect(Collectors.toList());
+	}
+
+	private String replaceSpaces(String s) {
+		return RegExUtils.replaceAll(s, " ", "_");
 	}
 }
