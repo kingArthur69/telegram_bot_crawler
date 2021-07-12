@@ -1,0 +1,1526 @@
+<!doctype html>
+<html lang="ru">
+<head>
+	<meta charset="utf-8">
+	<script type="text/javascript">(window.NREUM || (NREUM = {})).loader_config = {
+        licenseKey: "NRJS-599a9e9c025cd417982",
+        applicationID: "28268414"
+    };
+    window.NREUM || (NREUM = {}), __nr_require = function (t, e, n) {
+        function r(n) {
+            if (!e[n]) {
+                var i = e[n] = {exports: {}};
+                t[n][0].call(i.exports, function (e) {
+                    var i = t[n][1][e];
+                    return r(i || e)
+                }, i, i.exports)
+            }
+            return e[n].exports
+        }
+
+        if ("function" == typeof __nr_require) return __nr_require;
+        for (var i = 0; i < n.length; i++) r(n[i]);
+        return r
+    }({
+        1: [function (t, e, n) {
+            function r() {
+            }
+
+            function i(t, e, n) {
+                return function () {
+                    return o(t, [u.now()].concat(f(arguments)), e ? null : this, n), e ? void 0 : this
+                }
+            }
+
+            var o = t("handle"), a = t(8), f = t(9), c = t("ee").get("tracer"), u = t("loader"), s = NREUM;
+            "undefined" == typeof window.newrelic && (newrelic = s);
+            var d = ["setPageViewName", "setCustomAttribute", "setErrorHandler", "finished", "addToTrace", "inlineHit", "addRelease"],
+                p = "api-", l = p + "ixn-";
+            a(d, function (t, e) {
+                s[e] = i(p + e, !0, "api")
+            }), s.addPageAction = i(p + "addPageAction", !0), s.setCurrentRouteName = i(p + "routeName", !0), e.exports = newrelic, s.interaction = function () {
+                return (new r).get()
+            };
+            var m = r.prototype = {
+                createTracer: function (t, e) {
+                    var n = {}, r = this, i = "function" == typeof e;
+                    return o(l + "tracer", [u.now(), t, n], r), function () {
+                        if (c.emit((i ? "" : "no-") + "fn-start", [u.now(), r, i], n), i) try {
+                            return e.apply(this, arguments)
+                        } catch (t) {
+                            throw c.emit("fn-err", [arguments, this, t], n), t
+                        } finally {
+                            c.emit("fn-end", [u.now()], n)
+                        }
+                    }
+                }
+            };
+            a("actionText,setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","), function (t, e) {
+                m[e] = i(l + e)
+            }), newrelic.noticeError = function (t, e) {
+                "string" == typeof t && (t = new Error(t)), o("err", [t, u.now(), !1, e])
+            }
+        }, {}], 2: [function (t, e, n) {
+            function r(t) {
+                if (NREUM.init) {
+                    for (var e = NREUM.init, n = t.split("."), r = 0; r < n.length - 1; r++) if (e = e[n[r]], "object" != typeof e) return;
+                    return e = e[n[n.length - 1]]
+                }
+            }
+
+            e.exports = {getConfiguration: r}
+        }, {}], 3: [function (t, e, n) {
+            function r() {
+                return f.exists && performance.now ? Math.round(performance.now()) : (o = Math.max((new Date).getTime(), o)) - a
+            }
+
+            function i() {
+                return o
+            }
+
+            var o = (new Date).getTime(), a = o, f = t(10);
+            e.exports = r, e.exports.offset = a, e.exports.getLastTimestamp = i
+        }, {}], 4: [function (t, e, n) {
+            function r(t) {
+                return !(!t || !t.protocol || "file:" === t.protocol)
+            }
+
+            e.exports = r
+        }, {}], 5: [function (t, e, n) {
+            function r(t, e) {
+                var n = t.getEntries();
+                n.forEach(function (t) {
+                    "first-paint" === t.name ? d("timing", ["fp", Math.floor(t.startTime)]) : "first-contentful-paint" === t.name && d("timing", ["fcp", Math.floor(t.startTime)])
+                })
+            }
+
+            function i(t, e) {
+                var n = t.getEntries();
+                n.length > 0 && d("lcp", [n[n.length - 1]])
+            }
+
+            function o(t) {
+                t.getEntries().forEach(function (t) {
+                    t.hadRecentInput || d("cls", [t])
+                })
+            }
+
+            function a(t) {
+                if (t instanceof m && !g) {
+                    var e = Math.round(t.timeStamp), n = {type: t.type};
+                    e <= p.now() ? n.fid = p.now() - e : e > p.offset && e <= Date.now() ? (e -= p.offset, n.fid = p.now() - e) : e = p.now(), g = !0, d("timing", ["fi", e, n])
+                }
+            }
+
+            function f(t) {
+                "hidden" === t && d("pageHide", [p.now()])
+            }
+
+            if (!("init" in NREUM && "page_view_timing" in NREUM.init && "enabled" in NREUM.init.page_view_timing && NREUM.init.page_view_timing.enabled === !1)) {
+                var c, u, s, d = t("handle"), p = t("loader"), l = t(7), m = NREUM.o.EV;
+                if ("PerformanceObserver" in window && "function" == typeof window.PerformanceObserver) {
+                    c = new PerformanceObserver(r);
+                    try {
+                        c.observe({entryTypes: ["paint"]})
+                    } catch (v) {
+                    }
+                    u = new PerformanceObserver(i);
+                    try {
+                        u.observe({entryTypes: ["largest-contentful-paint"]})
+                    } catch (v) {
+                    }
+                    s = new PerformanceObserver(o);
+                    try {
+                        s.observe({type: "layout-shift", buffered: !0})
+                    } catch (v) {
+                    }
+                }
+                if ("addEventListener" in document) {
+                    var g = !1, h = ["click", "keydown", "mousedown", "pointerdown", "touchstart"];
+                    h.forEach(function (t) {
+                        document.addEventListener(t, a, !1)
+                    })
+                }
+                l(f)
+            }
+        }, {}], 6: [function (t, e, n) {
+            function r(t, e) {
+                if (!i) return !1;
+                if (t !== i) return !1;
+                if (!e) return !0;
+                if (!o) return !1;
+                for (var n = o.split("."), r = e.split("."), a = 0; a < r.length; a++) if (r[a] !== n[a]) return !1;
+                return !0
+            }
+
+            var i = null, o = null, a = /Version\/(\S+)\s+Safari/;
+            if (navigator.userAgent) {
+                var f = navigator.userAgent, c = f.match(a);
+                c && f.indexOf("Chrome") === -1 && f.indexOf("Chromium") === -1 && (i = "Safari", o = c[1])
+            }
+            e.exports = {agent: i, version: o, match: r}
+        }, {}], 7: [function (t, e, n) {
+            function r(t) {
+                function e() {
+                    t(a && document[a] ? document[a] : document[i] ? "hidden" : "visible")
+                }
+
+                "addEventListener" in document && o && document.addEventListener(o, e, !1)
+            }
+
+            e.exports = r;
+            var i, o, a;
+            "undefined" != typeof document.hidden ? (i = "hidden", o = "visibilitychange", a = "visibilityState") : "undefined" != typeof document.msHidden ? (i = "msHidden", o = "msvisibilitychange") : "undefined" != typeof document.webkitHidden && (i = "webkitHidden", o = "webkitvisibilitychange", a = "webkitVisibilityState")
+        }, {}], 8: [function (t, e, n) {
+            function r(t, e) {
+                var n = [], r = "", o = 0;
+                for (r in t) i.call(t, r) && (n[o] = e(r, t[r]), o += 1);
+                return n
+            }
+
+            var i = Object.prototype.hasOwnProperty;
+            e.exports = r
+        }, {}], 9: [function (t, e, n) {
+            function r(t, e, n) {
+                e || (e = 0), "undefined" == typeof n && (n = t ? t.length : 0);
+                for (var r = -1, i = n - e || 0, o = Array(i < 0 ? 0 : i); ++r < i;) o[r] = t[e + r];
+                return o
+            }
+
+            e.exports = r
+        }, {}], 10: [function (t, e, n) {
+            e.exports = {exists: "undefined" != typeof window.performance && window.performance.timing && "undefined" != typeof window.performance.timing.navigationStart}
+        }, {}], ee: [function (t, e, n) {
+            function r() {
+            }
+
+            function i(t) {
+                function e(t) {
+                    return t && t instanceof r ? t : t ? u(t, c, a) : a()
+                }
+
+                function n(n, r, i, o, a) {
+                    if (a !== !1 && (a = !0), !l.aborted || o) {
+                        t && a && t(n, r, i);
+                        for (var f = e(i), c = v(n), u = c.length, s = 0; s < u; s++) c[s].apply(f, r);
+                        var p = d[w[n]];
+                        return p && p.push([b, n, r, f]), f
+                    }
+                }
+
+                function o(t, e) {
+                    y[t] = v(t).concat(e)
+                }
+
+                function m(t, e) {
+                    var n = y[t];
+                    if (n) for (var r = 0; r < n.length; r++) n[r] === e && n.splice(r, 1)
+                }
+
+                function v(t) {
+                    return y[t] || []
+                }
+
+                function g(t) {
+                    return p[t] = p[t] || i(n)
+                }
+
+                function h(t, e) {
+                    l.aborted || s(t, function (t, n) {
+                        e = e || "feature", w[n] = e, e in d || (d[e] = [])
+                    })
+                }
+
+                var y = {}, w = {}, b = {
+                    on: o,
+                    addEventListener: o,
+                    removeEventListener: m,
+                    emit: n,
+                    get: g,
+                    listeners: v,
+                    context: e,
+                    buffer: h,
+                    abort: f,
+                    aborted: !1
+                };
+                return b
+            }
+
+            function o(t) {
+                return u(t, c, a)
+            }
+
+            function a() {
+                return new r
+            }
+
+            function f() {
+                (d.api || d.feature) && (l.aborted = !0, d = l.backlog = {})
+            }
+
+            var c = "nr@context", u = t("gos"), s = t(8), d = {}, p = {}, l = e.exports = i();
+            e.exports.getOrSetContext = o, l.backlog = d
+        }, {}], gos: [function (t, e, n) {
+            function r(t, e, n) {
+                if (i.call(t, e)) return t[e];
+                var r = n();
+                if (Object.defineProperty && Object.keys) try {
+                    return Object.defineProperty(t, e, {value: r, writable: !0, enumerable: !1}), r
+                } catch (o) {
+                }
+                return t[e] = r, r
+            }
+
+            var i = Object.prototype.hasOwnProperty;
+            e.exports = r
+        }, {}], handle: [function (t, e, n) {
+            function r(t, e, n, r) {
+                i.buffer([t], r), i.emit(t, e, n)
+            }
+
+            var i = t("ee").get("handle");
+            e.exports = r, r.ee = i
+        }, {}], id: [function (t, e, n) {
+            function r(t) {
+                var e = typeof t;
+                return !t || "object" !== e && "function" !== e ? -1 : t === window ? 0 : a(t, o, function () {
+                    return i++
+                })
+            }
+
+            var i = 1, o = "nr@id", a = t("gos");
+            e.exports = r
+        }, {}], loader: [function (t, e, n) {
+            function r() {
+                if (!R++) {
+                    var t = M.info = NREUM.info, e = v.getElementsByTagName("script")[0];
+                    if (setTimeout(u.abort, 3e4), !(t && t.licenseKey && t.applicationID && e)) return u.abort();
+                    c(E, function (e, n) {
+                        t[e] || (t[e] = n)
+                    });
+                    var n = a();
+                    f("mark", ["onload", n + M.offset], null, "api"), f("timing", ["load", n]);
+                    var r = v.createElement("script");
+                    0 === t.agent.indexOf("http://") || 0 === t.agent.indexOf("https://") ? r.src = t.agent : r.src = l + "://" + t.agent, e.parentNode.insertBefore(r, e)
+                }
+            }
+
+            function i() {
+                "complete" === v.readyState && o()
+            }
+
+            function o() {
+                f("mark", ["domContent", a() + M.offset], null, "api")
+            }
+
+            var a = t(3), f = t("handle"), c = t(8), u = t("ee"), s = t(6), d = t(4), p = t(2),
+                l = p.getConfiguration("ssl") === !1 ? "http" : "https", m = window, v = m.document,
+                g = "addEventListener", h = "attachEvent", y = m.XMLHttpRequest, w = y && y.prototype,
+                b = !d(m.location);
+            NREUM.o = {
+                ST: setTimeout,
+                SI: m.setImmediate,
+                CT: clearTimeout,
+                XHR: y,
+                REQ: m.Request,
+                EV: m.Event,
+                PR: m.Promise,
+                MO: m.MutationObserver
+            };
+            var x = "" + location, E = {
+                beacon: "bam.nr-data.net",
+                errorBeacon: "bam.nr-data.net",
+                agent: "js-agent.newrelic.com/nr-1210.min.js"
+            }, O = y && w && w[g] && !/CriOS/.test(navigator.userAgent), M = e.exports = {
+                offset: a.getLastTimestamp(),
+                now: a,
+                origin: x,
+                features: {},
+                xhrWrappable: O,
+                userAgent: s,
+                disabled: b
+            };
+            if (!b) {
+                t(1), t(5), v[g] ? (v[g]("DOMContentLoaded", o, !1), m[g]("load", r, !1)) : (v[h]("onreadystatechange", i), m[h]("onload", r)), f("mark", ["firstbyte", a.getLastTimestamp()], null, "api");
+                var R = 0
+            }
+        }, {}], "wrap-function": [function (t, e, n) {
+            function r(t, e) {
+                function n(e, n, r, c, u) {
+                    function nrWrapper() {
+                        var o, a, s, p;
+                        try {
+                            a = this, o = d(arguments), s = "function" == typeof r ? r(o, a) : r || {}
+                        } catch (l) {
+                            i([l, "", [o, a, c], s], t)
+                        }
+                        f(n + "start", [o, a, c], s, u);
+                        try {
+                            return p = e.apply(a, o)
+                        } catch (m) {
+                            throw f(n + "err", [o, a, m], s, u), m
+                        } finally {
+                            f(n + "end", [o, a, p], s, u)
+                        }
+                    }
+
+                    return a(e) ? e : (n || (n = ""), nrWrapper[p] = e, o(e, nrWrapper, t), nrWrapper)
+                }
+
+                function r(t, e, r, i, o) {
+                    r || (r = "");
+                    var f, c, u, s = "-" === r.charAt(0);
+                    for (u = 0; u < e.length; u++) c = e[u], f = t[c], a(f) || (t[c] = n(f, s ? c + r : r, i, c, o))
+                }
+
+                function f(n, r, o, a) {
+                    if (!m || e) {
+                        var f = m;
+                        m = !0;
+                        try {
+                            t.emit(n, r, o, e, a)
+                        } catch (c) {
+                            i([c, n, r, o], t)
+                        }
+                        m = f
+                    }
+                }
+
+                return t || (t = s), n.inPlace = r, n.flag = p, n
+            }
+
+            function i(t, e) {
+                e || (e = s);
+                try {
+                    e.emit("internal-error", t)
+                } catch (n) {
+                }
+            }
+
+            function o(t, e, n) {
+                if (Object.defineProperty && Object.keys) try {
+                    var r = Object.keys(t);
+                    return r.forEach(function (n) {
+                        Object.defineProperty(e, n, {
+                            get: function () {
+                                return t[n]
+                            }, set: function (e) {
+                                return t[n] = e, e
+                            }
+                        })
+                    }), e
+                } catch (o) {
+                    i([o], n)
+                }
+                for (var a in t) l.call(t, a) && (e[a] = t[a]);
+                return e
+            }
+
+            function a(t) {
+                return !(t && t instanceof Function && t.apply && !t[p])
+            }
+
+            function f(t, e) {
+                var n = e(t);
+                return n[p] = t, o(t, n, s), n
+            }
+
+            function c(t, e, n) {
+                var r = t[e];
+                t[e] = f(r, n)
+            }
+
+            function u() {
+                for (var t = arguments.length, e = new Array(t), n = 0; n < t; ++n) e[n] = arguments[n];
+                return e
+            }
+
+            var s = t("ee"), d = t(9), p = "nr@original", l = Object.prototype.hasOwnProperty, m = !1;
+            e.exports = r, e.exports.wrapFunction = f, e.exports.wrapInPlace = c, e.exports.argsToArray = u
+        }, {}]
+    }, {}, ["loader"]);</script>
+	<link rel="canonical" href="//makler.md/"> <!-- favicons begin -->
+	<link rel="icon" href="/favicon.ico?27">
+	<link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png?25">
+	<link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png?25">
+	<link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png?25">
+	<link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png?25">
+	<link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png?25">
+	<link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png?25">
+	<link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png?25">
+	<link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png?25">
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png?25">
+	<link rel="icon" type="image/png" href="/android-chrome-192x192.png?25" sizes="192x192">
+	<link rel="icon" type="image/png" href="/favicon-32x32.png?25" sizes="32x32">
+	<link rel="icon" type="image/png" href="/favicon-96x96.png?25" sizes="96x96">
+	<link rel="icon" type="image/png" href="/favicon-16x16.png?27" sizes="16x16">
+	<link rel="manifest" href="/manifest.json">
+	<meta name="msapplication-TileColor" content="#ffffff">
+	<meta name="msapplication-TileImage" content="/mstile-144x144.png?25">
+	<meta name="theme-color" content="#ffffff">
+	<meta name="apple-mobile-web-app-title" content="Makler.md">
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="application-name" content="Makler.md"> <!-- favicons end -->
+	<meta name="format-detection" content="telephone=no">
+	<script data-ad-client="ca-pub-4718658742144689" async
+			src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css">
+	<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css"
+		  integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+		  crossorigin="">
+	<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.3.0/dist/MarkerCluster.css">
+	<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.3.0/dist/MarkerCluster.Default.css">
+	<script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"
+			integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw=="
+			crossorigin=""></script>
+	<script src="https://unpkg.com/leaflet.markercluster@1.3.0/dist/leaflet.markercluster.js"></script>
+	<script src="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js"></script>
+	<link href="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css"
+		  rel="stylesheet">
+	<script src="/vendors/jquery/jquery-2.1.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"
+			integrity="sha256-tSRROoGfGWTveRpDHFiWVz+UXt+xKNe90wwGn25lpw8=" crossorigin="anonymous"></script>
+	<meta name="description"
+		  content="Недвижимость в Молдове, поиск работы, продажа/аренда авто, строительство и ремонт, одежда и обувь, товары для детей, электроника и многое другое.">
+	<title>Makler.md – доска объявлений в Молдове</title>
+	<link href="/d/css.min/layout.default.css?d1144" media="screen" rel="stylesheet" type="text/css">
+	<link href="/d/css/login-register-popups.css?d1144" media="screen" rel="stylesheet" type="text/css">
+	<link href="/vendors/jquery/ui/jquery-ui.min.css?d1144" media="screen" rel="stylesheet" type="text/css">
+	<link href="/vendors/jquery/plugins/jquery.plugins.min.css?d1144" media="screen" rel="stylesheet" type="text/css">
+	<link href="/vendors/fancybox2/jquery.fancybox.min.css?d1144e" media="screen" rel="stylesheet" type="text/css">
+	<script type="text/javascript">
+        var CONF = {
+            lang: 'ru',
+            publisherId: '1',
+            publisherUrl: 'chisinau',
+            regionUri: 'transnistria',
+            clientType: '',
+            showToolTipDelay: 1000,
+            showHelpDelay: 300,
+            desktopType: 'desktop',
+            domain: 'makler.md',
+            ws: "wss://makler.md/ws/",
+            isUa: 'false',
+            announcementIndexLimit: 24,
+            isModerated: 0,
+            UID: 0,
+            ws_uid: '',
+            obtainUId: 895093,
+            showCardDelay: 500,
+            showPhotoDelay: 100,
+            showBadge: true,
+            googleTagManagerData: {
+                city: "Кишинёв",
+                field_115: [],
+                publishers: {
+                    1: 'Kishinev',
+                    2: 'Belcy',
+                    3: 'Tiraspol',
+                    4: 'Odessa',
+                    12: 'Rybnica',
+                    14: 'Nikolaev',
+                    15: 'Regiony_Moldovy'
+                }
+            },
+            ga: '',
+            fbAppId: '191496614200089',
+            vkAppId: '2117415',
+            rp_host: 'https://comet.makler.md/?1625736238',
+            us_uid: '',
+            answer_btn: 'Ответить',
+            disable_notifications: true
+        };
+	</script>
+	<meta name="apple-itunes-app" content="app-id=1370408572"> <!-- Google Tag Manager -->
+	<script>(function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({
+            'gtm.start':
+                new Date().getTime(), event: 'gtm.js'
+        });
+        var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+        j.async = true;
+        j.src =
+            'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-NQG53J3');</script> <!-- End Google Tag Manager -->
+	<script>
+        window.dataLayer.push({
+            'dynx_pagetype': 'home'
+        });
+	</script>
+	<meta name="google-site-verification" content="e6C7Eqr-sncnZc2rUYLWxK4LKTD7StO771NEHusN7Sw">
+	<script src="https://yastatic.net/pcode/adfox/loader.js"></script>
+	<script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
+</head>
+<body> <!-- Google Tag Manager (noscript) -->
+<noscript>
+	<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NQG53J3" height="0" width="0"
+			style="display:none;visibility:hidden"></iframe>
+</noscript> <!-- End Google Tag Manager (noscript) -->
+<script>
+    function ga(action, data) {
+    }
+</script> <!-- site content { -->
+<div id="mainWrapper">
+	<script type="text/javascript" src="/vendors/jquery/jquery-tmpl.js" async></script>
+	<header id="header"> <!--	banner begin-->
+		<aside id="header_wideBannContainer" style="max-height: 120px;">
+			<div id="header_wideBannCropper" style="height: 120px;"> <!--AdFox START-->
+				<!--Площадка: NovaWEB | Makler.md / NovaWEB | Makler.md / 1. Все страницы. Растяжка_desk-->
+				<!--Категория: <не задана>--> <!--Тип баннера: Перетяжка 100%-->
+				<div id="adfox_158038930805721379"></div>
+				<script>
+                    if (window.Ya) {
+                        window.Ya.adfoxCode.create({
+                            ownerId: 239538,
+                            containerId: 'adfox_158038930805721379',
+                            params: {
+                                p1: 'cisjs',
+                                p2: 'y',
+                                puid52: '1',
+                                puid50: '2',
+                            }
+                        });
+                    }
+				</script>
+			</div>
+		</aside> <!--	banner end-->
+		<div class="canvas">
+			<nav id="header_firstRow">
+				<div id="header_colLeft"><a href="/ru/" id="header_logo"></a> <a href="/md/" id="header_lang"
+																				 class="bdash"><span>în română</span></a>
+				</div>
+				<div id="header_colRight">
+					<ul id="header_menu">
+						<li class="header_menuItem"><a href="/ru/an/notepad/" class="header_menuLink"
+													   id="header_myNotepad"> <span class="mr5">Блокнот</span> <b
+								id="notepadQty"> </b> </a></li>
+						<li class="header_menuItem"><a href="javascript:void(null);" id="logInDiv"
+													   onclick="App.user.login();"
+													   class="DropDownBtn bdash user header_menuLink">
+							<div><span>Войти</span>
+							</div>
+						</a></li>
+						<li class="header_menuItem"><a onclick="App.user.register();" href="javascript:void(null);"
+													   id="reg-link-header" class="header_menuLink"> Регистрация </a>
+						</li>
+					</ul>
+				</div>
+			</nav>
+			<div id="header_secondRow">
+				<div id="header_publisherSelector"><span data-w="pubSelList"
+														 class="DropDownBtn bdrop"> Приднестровье</span>
+					<div class="mydrop  shadow" id="pubSelList" style="display: none;">
+						<div id="main-list-bookmarked" class="m_container">
+							<div class="ohid">
+								<h4>Популярные регионы</h4>
+							</div>
+							<div class="book book_2_columns">
+								<ul>
+									<li class="uppercase"><a class="select_region" href="javascript:void(null);"
+															 data-rel="2" data-type="region">Молдова</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="28"
+										   data-type="city">Кишинёв</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="9"
+										   data-type="city">Бельцы</a></li>
+									<li class="uppercase"><a class="select_region" href="javascript:void(null);"
+															 data-rel="3" data-type="region">Приднестровье</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1112"
+										   data-type="city">Тирасполь</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="2"
+										   data-type="city">Рыбница</a></li>
+								</ul>
+							</div>
+							<div class="links"><a href="https://makler.ua/" class="uk_link uppercase">Украина</a>
+								<div class="region"><a class="select_region uppercase" href="/ru" data-rel="mssr"
+													   data-type="region">Молдова и Приднестровье</a>
+									<br> <a href="javascript: void(null);" id="another-regions" class="other otherReg">ДРУГОЙ
+										ГОРОД</a>
+								</div>
+							</div>
+						</div>
+						<div class="m_container" id="cities-list" style="display:none;">
+							<div class="ohid">
+								<h4>Выберите город</h4> <a id="return-1" href="javascript: void(null);">назад к
+								популярным регионам</a>
+							</div>
+							<div class="book">
+								<ul>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="28"
+										   data-type="city">Кишинёв</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="9"
+										   data-type="city">Бельцы</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1112"
+										   data-type="city">Тирасполь</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1113"
+										   data-type="city">Бендеры</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="2"
+										   data-type="city">Рыбница</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1494"
+										   data-type="city">Бессарабка</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="11"
+										   data-type="city">Бируинца</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1248"
+										   data-type="city">Ближний Хутор</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1495"
+										   data-type="city">Бричаны</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1034"
+										   data-type="city">Бубуечь</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1035"
+										   data-type="city">Будешть</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="13"
+										   data-type="city">Быковец</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1033"
+										   data-type="city">Бэчой</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1048"
+										   data-type="city">Вадул-луй-Водэ</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1049"
+										   data-type="city">Ватра</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1539"
+										   data-type="city">Вулканешты</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1042"
+										   data-type="city">Гидигичь</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="17"
+										   data-type="city">Гиндешты</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1506"
+										   data-type="city">Глодяны</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="4"
+										   data-type="city">Григориополь</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1043"
+										   data-type="city">Грэтиешть</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="3129"
+										   data-type="city">Днестровск</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1501"
+										   data-type="city">Дондюшаны</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1502"
+										   data-type="city">Дрокия</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="2597"
+										   data-type="city">Дубоссары</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1040"
+										   data-type="city">Думбрава</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1104"
+										   data-type="city">Единец</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="3466"
+										   data-type="city">Дэнчень</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1105"
+										   data-type="city">Кагул</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="23"
+										   data-type="city">Каинары</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1497"
+										   data-type="city">Калараш</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="5"
+										   data-type="city">Каменка</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1496"
+										   data-type="city">Кантемир</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1498"
+										   data-type="city">Каушаны</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1037"
+										   data-type="city">Кодру</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1038"
+										   data-type="city">Колоница</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1106"
+										   data-type="city">Комрат</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="31"
+										   data-type="city">Конгаз</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="32"
+										   data-type="city">Корнешты</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="33"
+										   data-type="city">Костешты</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1503"
+										   data-type="city">Кочиеры</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="34"
+										   data-type="city">Красное</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1039"
+										   data-type="city">Криково</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1500"
+										   data-type="city">Криулень</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1538"
+										   data-type="city">Крузешть</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="37"
+										   data-type="city">Купчинь</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1508"
+										   data-type="city">Леова</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="39"
+										   data-type="city">Липканы</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="40"
+										   data-type="city">Маркулешты</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="41"
+										   data-type="city">Маяк</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1509"
+										   data-type="city">Ниспорены</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="43"
+										   data-type="city">Новотираспольский</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1493"
+										   data-type="city">Новые Анены</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1510"
+										   data-type="city">Окница</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1107"
+										   data-type="city">Орхей</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="47"
+										   data-type="city">Отачь</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1250"
+										   data-type="city">Парканы</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1511"
+										   data-type="city">Резина</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="3465"
+										   data-type="city">Первомайск</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1512"
+										   data-type="city">Рышканы</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1519"
+										   data-type="city">Слободзея</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1108"
+										   data-type="city">Сороки</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1514"
+										   data-type="city">Страшены</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1044"
+										   data-type="city">Стэучень</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1249"
+										   data-type="city">Суклея</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1513"
+										   data-type="city">Сынджера</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1045"
+										   data-type="city">Сынжерей</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1517"
+										   data-type="city">Тараклия</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="55"
+										   data-type="city">Твардица</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1518"
+										   data-type="city">Теленешты</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1251"
+										   data-type="city">Терновка</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1046"
+										   data-type="city">Тохатин</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1047"
+										   data-type="city">Трушень</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1109"
+										   data-type="city">Унгень</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1504"
+										   data-type="city">Фалешты</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1505"
+										   data-type="city">Флорешты</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="60"
+										   data-type="city">Фрунзе</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1110"
+										   data-type="city">Хынчешты</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="2609"
+										   data-type="city">Чадыр-Лунга</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1499"
+										   data-type="city">Чимишлия</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1036"
+										   data-type="city">Чореску</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1515"
+										   data-type="city">Шолданешты</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1516"
+										   data-type="city">Штефан-Водэ</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="1507"
+										   data-type="city">Яловены</a></li>
+									<li><a class="select_region" href="javascript:void(null);" data-rel="67"
+										   data-type="city">Яргара</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="header_searchBox">
+					<div itemscope itemtype="https://schema.org/WebSite">
+						<meta itemprop="url" content="//makler.md/">
+						<form id="header_searchForm" itemprop="potentialAction" itemscope
+							  itemtype="https://schema.org/SearchAction" action="/ru/transnistria/an/search/"
+							  method="get">
+							<meta itemprop="target" content="https://makler.md/ru/an/search/?query={query}">
+							<input id="header_searchField" type="text" itemprop="query-input" class="disable-border"
+								   placeholder="Найти среди 64 759 объявлений в Приднестровье..." name="query" value=""
+								   autocomplete="off">
+							<button type="submit" id="header_searchButton">Найти</button>
+						</form>
+					</div>
+				</div>
+				<a class="btn_solid btn_green btn_45" onclick="GA_MKLR.anAddToCatFromTopMenu('Кишинёв', '')"
+				   href="/an/web/add"> Создай объявление </a>
+			</div>
+		</div>
+	</header>
+	<nav id="toolbar">
+		<div id="toolbar_wrapper">
+			<div id="toolbar_leftControls"><a id="toolbar_slideToTop" class="toolbar_qtip" title="Наверх"
+											  href="javascript:void(null);"></a> <a id="toolbar_logo"
+																					class="toolbar_qtip"
+																					title="На главную страницу"
+																					href="/"></a>
+			</div>
+			<form action="/ru/an/search/" method="GET" id="toolbar_searchForm">
+				<input id="toolbar_searchField" type="text" name="query" value="" placeholder="Найти в Приднестровье..."
+					   autocomplete="off">
+				<button id="toolbar_searchButton">Найти</button>
+				<span id="toolbar_minifySearchBox"></span>
+				<div id="toolbar_smartSearchBox"></div>
+			</form>
+			<div id="toolbar_rightControls"><a href="/ru/an/notepad/" id="toolbar_myNotepad" title="Блокнот"
+											   class="toolbar_qtip"> <span class="notepadQty"> </span> </a>
+				<div id="toolbar_myMiniProfile" class="DropDownBtn" onclick="App.user.login();"><a
+						href="javascript:void(null)" onclick="App.user.login();" data-w="toolbar_logInExpanded"
+						id="mmLogB" class="DropDownBtn bdash ron"> <span class="ron">Войти</span> </a>
+				</div>
+				<a href="javascript:void(null);" id="toolbar_registerLink" onclick="return App.user.register();">
+					Регистрация </a> <a class="toolbar_qtip" onclick="GA_MKLR.anAddToCatFromTopMenu('Кишинёв', '')"
+										href="/an/user/add" id="toolbar_addAd" title="Создай объявление"> </a>
+			</div>
+		</div>
+	</nav>
+	<ul id="smartSearchBox" data-publisher-id="1" data-is-cat="" style="display: none"></ul>
+	<script id="smartSearchBox_tmpl" type="text/x-jquery-tmpl">
+		{{if isInCategory}}
+	<li id="smartSearchBox_findInThisCat" class="smartSearch_promptItem" data-category-url="">
+		{{html categoryQuery}}
+	<span class="smartSearch_catName">в текущем разделе</span>
+		</li>
+		{{/if}}
+	{{if categoryQueries.length}}
+	<li id="smartSearchBox_findInCategories">
+		<ul>
+		{{each(k, v) categoryQueries}}
+	<li class="smartSearch_promptItem" data-category-url="${v.url}">
+		{{html v.key}}
+	<span class="smartSearch_catName">${v.category}</span>
+		</li>
+		{{/each}}
+	</ul>
+	</li>
+	{{/if}}
+	{{if otherQueries.length}}
+	<li id="smartSearchBox_findInOtherQueries">
+		<ul>
+		{{each otherQueries}}
+	<li class="smartSearch_promptItem">
+		{{html $value}}
+	</li>
+	{{/each}}
+	</ul>
+	</li>
+	{{/if}}
+
+	</script>
+	<div id="contentWrapper" class="canvas clrfix">
+		<main id="main-page" class="layout-2col-left240px-rightX mt30 auth-guest">
+			<div class="col-left"> <!-- rubricator -->
+				<nav>
+					<ul class="tlist rublist menuAim" id="rublist_lev1">
+						<li class="theader"><a href="/ru/transnistria/real-estate">Недвижимость</a></li>
+						<li data-submenu-id="114" data-cid="114" class="myMenu"><a class="catMenu "
+																				   href="/ru/transnistria/transport">
+							Транспорт </a></li>
+						<li data-submenu-id="610" data-cid="610" class="myMenu"><a class="catMenu "
+																				   href="/ru/transnistria/job"> Работа и
+							обучение </a></li>
+						<li data-submenu-id="696" data-cid="696" class="myMenu"><a class="catMenu "
+																				   href="/ru/transnistria/services">
+							Услуги </a></li>
+						<li data-submenu-id="292" data-cid="292" class="myMenu"><a class="catMenu "
+																				   href="/ru/transnistria/construction-and-repair">
+							Строительство и ремонт </a></li>
+						<li data-submenu-id="223" data-cid="223" class="myMenu"><a class="catMenu "
+																				   href="/ru/transnistria/furniture-and-interior">
+							Мебель и интерьер </a></li>
+						<li data-submenu-id="224" data-cid="224" class="myMenu"><a class="catMenu "
+																				   href="/ru/transnistria/clothing-footwear-accessories">
+							Одежда, обувь, аксессуары </a></li>
+						<li data-submenu-id="233" data-cid="233" class="myMenu"><a class="catMenu "
+																				   href="/ru/transnistria/products-for-children">
+							Все для детей </a></li>
+						<li data-submenu-id="822" data-cid="822" class="myMenu"><a class="catMenu "
+																				   href="/ru/transnistria/handmade">
+							Handmade </a></li>
+						<li data-submenu-id="425" data-cid="425" class="myMenu"><a class="catMenu "
+																				   href="/ru/transnistria/computers-and-office-equipment">
+							Компьютеры, оргтехника и IT </a></li>
+						<li data-submenu-id="457" data-cid="457" class="myMenu"><a class="catMenu "
+																				   href="/ru/transnistria/audio-photo-video">
+							Аудио, видео, фото, ТВ </a></li>
+						<li data-submenu-id="212" data-cid="212" class="myMenu"><a class="catMenu "
+																				   href="/ru/transnistria/phones-and-communications">
+							Телефоны и связь </a></li>
+						<li data-submenu-id="274" data-cid="274" class="myMenu"><a class="catMenu "
+																				   href="/ru/transnistria/household-products">
+							Бытовая техника </a></li>
+						<li data-submenu-id="577" data-cid="577" class="myMenu"><a class="catMenu "
+																				   href="/ru/transnistria/industrial-and-commercial-equipment">
+							Оборудование и приборы </a></li>
+						<li data-submenu-id="389" data-cid="389" class="myMenu"><a class="catMenu "
+																				   href="/ru/transnistria/sport-and-leisure">
+							Туризм, спорт и отдых </a></li>
+						<li data-submenu-id="280" data-cid="280" class="myMenu"><a class="catMenu "
+																				   href="/ru/transnistria/plants-and-animals">
+							Растения и животные </a></li>
+						<li data-submenu-id="492" data-cid="492" class="myMenu"><a class="catMenu "
+																				   href="/ru/transnistria/agribusiness">
+							Дачное и сельское хозяйство </a></li>
+						<li data-submenu-id="521" data-cid="521" class="myMenu"><a class="catMenu "
+																				   href="/ru/transnistria/dating">
+							Знакомства </a></li>
+						<li data-submenu-id="507" data-cid="507" class="myMenu"><a class="catMenu "
+																				   href="/ru/transnistria/weddings-and-celebration">
+							Свадьбы, праздники и подарки </a></li>
+						<li data-submenu-id="404" data-cid="404" class="myMenu"><a class="catMenu "
+																				   href="/ru/transnistria/music-books-art">
+							Музыка, книги, искусство </a></li>
+						<li><a href="javascript:"> Другие разделы... </a></li>
+						<li class="theader"><a href="/categories">Карта разделов</a></li>
+					</ul>
+				</nav> <!-- rubricator -->
+				<div class="bggrey currency mt30">
+					<h3>Курс валют</h3> <span class="f10 lgrey">Банк Приднестровья 08.07.2021</span>
+					<table class="curcur mt10">
+						<tbody>
+						<tr>
+							<td class="td1">MDL</td>
+							<td class="td2">1</td>
+							<td class="td3">0.8696</td>
+							<td class="td4">0.0001</td>
+							<td class="td5">
+								<div class="vup"></div>
+							</td>
+						</tr>
+						<tr>
+							<td class="td1">EUR</td>
+							<td class="td2">1</td>
+							<td class="td3">19.0238</td>
+							<td class="td4">-0.1030</td>
+							<td class="td5">
+								<div class="vdown"></div>
+							</td>
+						</tr>
+						<tr>
+							<td class="td1">USD</td>
+							<td class="td2">1</td>
+							<td class="td3">16.1000</td>
+							<td class="td4">0.0000</td>
+							<td class="td5">
+								<div class="vup"></div>
+							</td>
+						</tr>
+						<tr>
+							<td class="td1">RUB</td>
+							<td class="td2">1</td>
+							<td class="td3">0.2165</td>
+							<td class="td4">-0.0032</td>
+							<td class="td5">
+								<div class="vdown"></div>
+							</td>
+						</tr>
+						<tr>
+							<td class="td1">RON</td>
+							<td class="td2">1</td>
+							<td class="td3">3.8728</td>
+							<td class="td4">-0.0057</td>
+							<td class="td5">
+								<div class="vdown"></div>
+							</td>
+						</tr>
+						<tr>
+							<td class="td1">UAH</td>
+							<td class="td2">1</td>
+							<td class="td3">0.5908</td>
+							<td class="td4">0.0008</td>
+							<td class="td5">
+								<div class="vup"></div>
+							</td>
+						</tr>
+						</tbody>
+					</table>
+					<table class="curcalc mt10" id="exchangeTable">
+						<tbody>
+						<tr>
+							<td class="td1">MDL <input maxlength="10" type="text" value="115" rate="0.8696" id="MDL">
+							</td>
+							<td>USD <input maxlength="10" type="text" value="6.21" rate="16.1000" id="USD"></td>
+						</tr>
+						<tr>
+							<td class="td1">EUR <input maxlength="10" type="text" value="5.26" rate="19.0238" id="EUR">
+							</td>
+							<td>UAH <input maxlength="10" type="text" value="169.26" rate="0.5908" id="UAH"></td>
+						</tr>
+						<tr>
+							<td class="td1">RUB <input maxlength="10" type="text" value="461.89" rate="0.2165" id="RUR">
+							</td>
+							<td>RON <input maxlength="10" type="text" value="25.82" rate="3.8728" id="RON"></td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+				<nav> <!-- <a href="//fifa2018/" id="main_fifa2018" class="mt30">EURO 2016</a>-->
+					<!--<a href="//fifa2018/winnerstotal" id="main_euro2016" class="mt30">FIFA 2018</a>--> <a
+							href="/ru/tv/" class="tvprog mt30">Программа ТВ</a> <!-- <a href="/-->
+					<!--/postcards/" class="postcards">--> <!--</a>-->
+				</nav>
+				<aside> <!--AdFox START-->
+					<!--Площадка: NovaWEB | Makler.md / NovaWEB | Makler.md / 4. Главная_240x400_desk-->
+					<!--Категория: <не задана>--> <!--Тип баннера: 240*400_this-->
+					<div class="adFoxBanner">
+						<div id="adfox_158038846932458611"></div>
+					</div>
+					<script>
+                        window.Ya.adfoxCode.create({
+                            ownerId: 239538,
+                            containerId: 'adfox_158038846932458611',
+                            params: {
+                                p1: 'cisjw',
+                                p2: 'fgou',
+                                puid52: '1',
+                                puid50: '2'
+                            }
+                        });
+					</script>
+				</aside>
+			</div>
+			<div class="col-right">
+				<aside id="main_wideBannContainer">
+					<div id="main_wideBannCropper"> <!--AdFox START-->
+						<!--Площадка: NovaWEB | Makler.md / NovaWEB | Makler.md / 2. Главная_720x240_desk-->
+						<!--Категория: <не задана>--> <!--Тип баннера: Перетяжка 100%-->
+						<div class="adFoxBanner">
+							<div id="adfox_158039018292284855"></div>
+						</div>
+						<script>
+                            window.Ya.adfoxCode.create({
+                                ownerId: 239538,
+                                containerId: 'adfox_158039018292284855',
+                                params: {
+                                    p1: 'cisjt',
+                                    p2: 'y',
+                                    puid52: '1',
+                                    puid50: '2'
+                                }
+                            });
+						</script>
+					</div>
+				</aside>
+				<div id="mainAnList">
+					<div id="lastAnList" class="mt15 lineBox" data-list-style="photo" data-limit="24"></div>
+				</div>
+				<script>
+                    $(document).ready(function () {
+                        getLastAnList();
+                    });
+				</script>
+			</div>
+		</main>
+	</div>
+	<footer id="footer">
+		<div class="fSocialWrapper">
+			<div class="fSocial canvas">
+				<div class="fNew"><span>Экспресс-подача объявлений:</span> <a title="Viber"
+																			  href="viber://chat?number=+37376700300"
+																			  class="vibeLink"></a> <a title="Telegram"
+																									   href="tg://resolve?domain=@Maklermd"
+																									   class="telegramLink"></a>
+				</div>
+				<div class="fFoc"><span>Мы в соцсетях:</span> <a href="https://www.facebook.com/Makler.md"
+																 target="_blank" class="fb-round"></a> <a
+						href="https://ok.ru/makler.md" target="_blank" class="ok-round"></a> <a
+						href="https://vk.com/maklermd" target="_blank" class="vk-round"></a>
+				</div>
+				<div class="fCounter"> <!-- Yandex.Metrika informer --> <a
+						href="https://metrika.yandex.ru/stat/?id=20849017&amp;from=informer" target="_blank"
+						rel="nofollow" class="fMetric"><img
+						src="https://informer.yandex.ru/informer/20849017/3_0_FFFFFFFF_EFEFEFFF_0_pageviews"
+						style="width:88px; height:31px; border:0;" alt="Яндекс.Метрика"
+						title="Яндекс.Метрика: данные за сегодня (просмотры, визиты и уникальные посетители)"
+						class="ym-advanced-informer" data-cid="20849017" data-lang="ru"></a>
+					<!-- /Yandex.Metrika informer -->
+				</div>
+			</div>
+		</div>
+		<div class="fMain canvas">
+			<div class="fFirst">
+				<p class="fTitle">Для размещения рекламы:</p>
+				<noindex>
+					<p>Кишинев 373 22 835-035</p>
+				</noindex>
+				<noindex>
+					<p>Бельцы 373 231 2-23-05</p>
+				</noindex>
+				<noindex>
+					<p>Тирасполь 373 533 5-28-05</p>
+				</noindex>
+				<a href="/cdn-cgi/l/email-protection#01766463416c606a6d64732f6c65" target="_top"><span
+						class="__cf_email__"
+						data-cfemail="b0c7d5d2f0ddd1dbdcd5c29eddd4">[email&nbsp;protected]</span></a>
+			</div>
+			<div class="fSecond">
+				<p class="fTitle">Техподдержка:</p>
+				<noindex>
+					<p>Кишинев 373 68 102-202</p>
+				</noindex>
+				<noindex>
+					<p>Бельцы 373 231 2-24-62</p>
+				</noindex>
+				<noindex>
+					<p>Тирасполь 373 533 5-28-05</p>
+				</noindex>
+				<a href="/cdn-cgi/l/email-protection#a4d7d1d4d4cbd6d0e4c9c5cfc8c1d68ac9c0" target="_top"><span
+						class="__cf_email__"
+						data-cfemail="90e3e5e0e0ffe2e4d0fdf1fbfcf5e2befdf4">[email&nbsp;protected]</span></a>
+			</div>
+			<div class="fThird">
+				<p class="fTitle">Наши приложения:</p> <a href="https://apps.apple.com/us/app/makler-md/id1370408572"
+														  target="_blank" class="appIcon"></a> <a
+					href="https://play.google.com/store/apps/details?id=com.makler&amp;hl=ru" target="_blank"
+					class="googleIcon"></a>
+			</div>
+			<div class="fFourth"><a href="/ru/help/aboutus/">О компании</a> <a href="/ru/help/contacts/">Контакты</a> <a
+					href="/ru/help/advertising/">Реклама на сайте</a> <a href="/ru/help/payment_terms/">Условия и
+				правила</a> <a href="/ru/help/">Помощь</a>
+			</div>
+		</div>
+		<div class="fService canvas">
+			<p>© ООО «Makler», 1991 – 2021</p>
+		</div>
+	</footer>
+</div> <!-- site content } --> <!-- AUX elements { -->
+<div id="load-indicator">
+	Загрузка...
+</div>
+<div id="ssContainer" style="display: none;"></div>
+<div id="qtip-display-area-wrapper">
+	<div id="qtip-display-area" class="canvas"></div>
+</div>
+<div id="ajax-dialog" class="popupBg" style="display: none;"></div>
+<div id="dialog_box" style="display: none;"></div> <!-- AUX elements } -->
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+<script type="text/javascript" src="/vendors/jquery/plugins/jquery.unveil.js?d1144"></script>
+<script type="text/javascript" src="/vendors/jquery/plugins/jquery.plugins.min.js?d1144"></script>
+<script type="text/javascript" src="/vendors/dklab_realplexor/dklab_realplexor.js?d1144"></script>
+<script type="text/javascript" src="/d/js/common.js?d1144"></script>
+<script type="text/javascript">
+    //<!--
+    NotepadInitSelector = {};    //-->
+</script>
+<script type="text/javascript" src="/d/js/index.js?d1144"></script>
+<script type="text/javascript" src="/vendors/jquery/ui/jquery-ui.min.js?d1144"></script>
+<script type="text/javascript" src="/vendors/fancybox2/jquery.fancybox.min.js?d1144"></script>
+<script type="text/javascript" src="/d/js/third-side-tracking.js?d1144"></script>
+<script type="text/javascript" src="/d/js/user-register.js?d1144"></script>
+<script type="application/javascript">var OA_zones = {
+    'zone_1_1': 62151,
+    'zone_4_1': 62152,
+    'zone_31_1': 62153,
+    'zone_32_1': 62154,
+    'zone_left': 62146
+};</script>
+<script type="application/javascript">
+    var OA_spc = "";
+    if (typeof(OA_zones) !== "undefined") {
+        var OA_zoneids = "";
+        var zonename;
+        for (zonename in OA_zones) OA_zoneids += encodeURI(zonename + "=" + OA_zones[zonename] + "|");
+        OA_zoneids += "&amp;nz=1";
+    } else {
+        var OA_zoneids = encodeURI("");
+    }
+    if (typeof(OA_source) == "undefined") {
+        OA_source = "";
+    }
+    var OA_p = "https://revive.makler.md/www/delivery/spc.php";
+    var OA_r = Math.floor(Math.random() * 99999999);
+    OA_output = [];
+    var OA_spc = "<" + "script type='text/javascript' ";
+    OA_spc += "src='" + OA_p + "?zones=" + OA_zoneids;
+    OA_spc += "&amp;source=" + encodeURI(OA_source) + "&amp;r=" + OA_r;
+    OA_spc += "&amp;block=1&amp;blockcampaign=1&amp;target=_blank&amp;charset=UTF-8";
+    if (window.location) OA_spc += "&amp;loc=" + encodeURI(window.location);
+    if (document.referrer) OA_spc += "&amp;referer=" + encodeURI(document.referrer);
+    OA_spc += "'><" + "/script>";
+    document.write(OA_spc);
+
+    function OA_show(name) {
+        if (typeof(OA_output[name]) == "undefined") {
+        } else {
+            document.write(OA_output[name]);
+        }
+    }</script>
+<script type="text/javascript">
+
+    $is_mobile = false;
+
+    function show_ad($id) {
+        if ($is_mobile)
+            return false;
+
+        if ('undefined' !== typeof (OA_output) && typeof (OA_output[$id]) != 'undefined' && OA_output[$id] !== '') {
+
+            var flashCode,
+                oDIV = document.getElementById('openx-' + $id);
+
+            if (oDIV) {
+
+                // if it's a flash banner..
+                if (OA_output[$id].indexOf("ox_swf.write") != -1) {
+
+                    // extract javascript code
+                    var pre_code_wrap = "<script type='text/javascript'><!--// <![CDATA[",
+                        post_code_wrap = "// ]]> -->";
+
+                    flashCode = OA_output[$id].substr(OA_output[$id].indexOf(pre_code_wrap) + pre_code_wrap.length);
+                    flashCode = flashCode.substr(0, flashCode.indexOf(post_code_wrap));
+
+                    // replace destination for the SWFObject
+                    flashCode = flashCode.replace(/ox\_swf\.write\(\'(.*)'\)/, "ox_swf.write('" + oDIV.id + "')");
+                    flashCode = flashCode.replace(/document.write/, "$('#" + oDIV.id + "').append");
+
+                    // insert SWFObject
+                    if (flashCode.indexOf("ox_swf.write") != -1) {
+                        eval(flashCode);
+                    }// else: the code was not as expected; don't show it
+                } else {
+                    // normal image banner; just set the contents of the DIV
+
+                    var oldWrite = document.write;
+                    var wHtml = "";
+                    document.write = function (str) {
+                        wHtml += str;
+                    };
+
+                    $('#openx-' + $id).append(OA_output[$id]);
+                    // optionally reset
+                    document.write = oldWrite;
+                    //oDIV.innerHTML = OA_output[$id];
+                }
+            }
+        }
+    }
+
+
+</script>
+<div id="mvl_zero" style="display: none; z-index: 256;" data-title="Нет объявлений">
+	<div class="box-wrp">
+		<p align="center"> В выбранном вами регионе не размещались объявления. Выберите пожалуйста другой регион. </p>
+	</div>
+	<div class="box-wrp2">
+		<div class="buttons"><a href="javascript:void(null);" class="go psGo_seen blue">OK</a> <a
+				href="javascript:void(null);" class="cancel red">Отмена</a>
+		</div>
+	</div>
+</div>
+<div id="pmr_user" style="display: none; z-index: 256;" data-title="Пользователь из Приднестровья">
+	<div class="box-wrp">
+		<p align="center"> Вы зашли с приднестровского IP. Выберите регион </p>
+	</div>
+	<div class="box-wrp2">
+		<div class="buttons"><a href="javascript:void(null);" data-type="region" data-rel="3"
+								class="select_region blue">Приднестровье</a> <a href="javascript:void(null);"
+																				data-type="region" data-rel="mssr"
+																				class="select_region blue">Молдова</a>
+		</div>
+	</div>
+</div>
+<script>
+    $(document).ready(function () {
+        var $dialog = $("#pmr_user");
+        $dialog.dialog({
+            closeText: '',
+            title: $dialog.data('title'),
+            dialogClass: "new-style message blue",
+            width: 430,
+            minHeight: 100,
+            modal: true,
+            resizable: false
+        });
+
+        $dialog.dialog('widget').focus(); // not IE
+        $dialog.focus(); // IE
+
+        $('.remain_pmr, .checkout_mssr').click(function () {
+            selectRegion();
+        });
+    });
+</script> <!-- BEGIN JIVOSITE CODE
+{literal}
+-->
+<script type="text/javascript">
+    (function () {
+        var widget_id = 'gX5nPVhA4W';
+        var d = document;
+        var w = window;
+
+        function l() {
+            var s = document.createElement('script');
+            s.type = 'text/javascript';
+            s.async = true;
+            s.src = '//code.jivosite.com/script/widget/' + widget_id;
+            var ss = document.getElementsByTagName('script')[0];
+            ss.parentNode.insertBefore(s, ss);
+        }
+
+        if (d.readyState == 'complete') {
+            l();
+        }
+        else {
+            if (w.attachEvent) {
+                w.attachEvent('onload', l);
+            }
+            else {
+                w.addEventListener('load', l, false);
+            }
+        }
+    })();</script> <!--
+{/literal}
+END JIVOSITE CODE -->
+<script type="text/javascript">
+    /* <![CDATA[ */
+    var google_conversion_id = 869272218;
+    var google_custom_params = window.google_tag_params;
+    var google_remarketing_only = true;
+    /* ]]> */
+</script>
+<div style="display: none;">
+	<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js"></script>
+</div>
+<noscript>
+	<div style="display:inline;">
+		<img height="1" width="1" style="border-style:none;" alt=""
+			 src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/869272218/?guid=ON&amp;script=0">
+	</div>
+</noscript>
+<script type="text/javascript">
+    $(document).ready(function () {
+    });
+</script> <!--<img src="/layouts/default/img/tote/floatingBanner.png" alt="EURO2106 pe makler.md">--> <!--<div id="tote_floatingBann" class="floatingBann" style="display: none">
+		<a href="//fifa2018" id="tote_floatingBannLink">
+			<div class="fifaFloat">
+				<h3></h3>
+				<p></p>
+			</div>
+
+			<span class="btn_solid btn_blue btn_40">
+							</span>
+		</a>
+		<span id="tote_floatingBannClose" class="floatingBannClose"></span>
+	</div>--> <!--	Голосовалка --> <!--<div id="tote_floatingBann" class="floatingBann" style="display: none">
+		<p class="voteText"></p>
+					<a href="https://yandex.ru/poll/enter/MX2XmSWxgmqkuePKx7nMt9" target="_blank" class="voteButton" id="tote_floatingBannLink"></a>
+					<a href="https://yandex.ru/poll/enter/MX2XmSWxgmqkuePKx7nMt9" target="_blank" class="voteButton" id="tote_floatingBannLink"></a>
+
+		<span id="tote_floatingBannClose" class="floatingBannClose"></span>
+	</div>--> <!--	/Голосовалка --> <!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function () {
+            try {
+                w.yaCounter20849017 = new Ya.Metrika2({
+                    id: 20849017,
+                    clickmap: true,
+                    trackLinks: true,
+                    accurateTrackBounce: true
+                });
+            } catch (e) {
+            }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () {
+                n.parentNode.insertBefore(s, n);
+            };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/tag.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else {
+            f();
+        }
+    })(document, window, "yandex_metrika_callbacks2");
+</script>
+<noscript>
+	<div>
+		<img src="https://mc.yandex.ru/watch/20849017" style="position:absolute; left:-9999px;" alt="">
+	</div>
+</noscript> <!-- /Yandex.Metrika counter -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "WebSite",
+  "url": "https://makler.md/",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://makler.md/ru/transnistria/an/search/?query={query}",
+    "query-input": "required name=query"
+  }
+}
+
+</script> <!-- Facebook Pixel Code -->
+<script>
+    !function (f, b, e, v, n, t, s) {
+        if (f.fbq) return;
+        n = f.fbq = function () {
+            n.callMethod ?
+                n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+        };
+        if (!f._fbq) f._fbq = n;
+        n.push = n;
+        n.loaded = !0;
+        n.version = '2.0';
+        n.queue = [];
+        t = b.createElement(e);
+        t.async = !0;
+        t.src = v;
+        s = b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t, s)
+    }(window, document, 'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1039528402834822');
+    fbq('track', 'PageView');
+</script>
+<noscript>
+	<img height="1" width="1" src="https://www.facebook.com/tr?id=1039528402834822&amp;ev=PageView
+&amp;noscript=1">
+</noscript> <!-- End Facebook Pixel Code --> <!-- (C)2000-2019 Gemius SA - gemiusPrism  / Makler.md/Other pages -->
+<script type="text/javascript">
+    <!--//-->
+    <![CDATA[//><!--
+    var pp_gemius_identifier = 'ctWbi0tqJND1CDo.CnHR7PU5rocpyA82uAkNm32YOFL.57';
+
+    // lines below shouldn't be edited
+    function gemius_pending(i) {
+        window[i] = window[i] || function () {
+            var x = window[i + '_pdata'] = window[i + '_pdata'] || [];
+            x[x.length] = arguments;
+        };
+    }
+
+    gemius_pending('gemius_hit');
+    gemius_pending('gemius_event');
+    gemius_pending('pp_gemius_hit');
+    gemius_pending('pp_gemius_event');
+    (function (d, t) {
+        try {
+            var gt = d.createElement(t), s = d.getElementsByTagName(t)[0],
+                l = 'http' + ((location.protocol == 'https:') ? 's' : '');
+            gt.setAttribute('async', 'async');
+            gt.setAttribute('defer', 'defer');
+            gt.src = l + '://gamd.hit.gemius.pl/xgemius.js';
+            s.parentNode.insertBefore(gt, s);
+        } catch (e) {
+        }
+    })(document, 'script');
+    //--><!
+    ]]>
+</script>
+<script type="text/javascript">window.NREUM || (NREUM = {});
+NREUM.info = {
+    "beacon": "bam.eu01.nr-data.net",
+    "licenseKey": "NRJS-599a9e9c025cd417982",
+    "applicationID": "28268414",
+    "transactionName": "MhBSZQoZDRZTUEMNXgtacVIMEQwLHVdSAlAQGUQeERYHAEocXgpVAA0=",
+    "queueTime": 0,
+    "applicationTime": 37,
+    "atts": "HldRE0IDHhg=",
+    "errorBeacon": "bam.eu01.nr-data.net",
+    "agent": ""
+}</script>
+</body>
+</html>

@@ -1,52 +1,51 @@
 package com.arthur.crawlers;
 
+import lombok.extern.log4j.Log4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 
 import java.io.IOException;
-import java.util.Map;
-import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
+import java.util.List;
 
+@Log4j
 public class SiteCrawler {
 
-    public static final Logger LOGGER = Logger.getLogger(SiteCrawler.class.getName());
+	private Site site;
 
-    private Site site;
+	public SiteCrawler(String url) {
+		this.site = SiteSwitcher.getSite(url);
+	}
 
-    public SiteCrawler(Site site) {
-        this.site = site;
-    }
+	public SiteCrawler(Site site) {
+		this.site = site;
+	}
 
-    CrawlResult crawl() {
-        CrawlResult result = site.getResult();
-        try {
-            Document document = Jsoup.connect(site.getUrl()).get();
+	CrawlResult crawl() {
+		CrawlResult result = null;
+		try {
+			Document document = Jsoup.connect(site.getCurrentUrl()).get();
 
-            Map<String, String> options = parseOptions(document);
+			result = site.parse(document);
+		} catch (IOException e) {
+			log.error(e.getMessage(), e);
+		}
+		return result;
+	}
 
-            result.setOptions(options);
+	CrawlResult crawl(List<String> strings) {
 
-            Map<String, String> foundObjects = parseFoundObjects(document);
-
-            result.setFoundObjects(foundObjects);
-
-        } catch (IOException e) {
-            LOGGER.log(Level.WARNING, e.getMessage(), e);
-        }
-        return result;
-    }
-
-    protected Map<String, String> parseFoundObjects(Document document) {
-        return document.select(site.getObjectsSelector()).stream()
-                .collect(Collectors.toMap(element -> UUID.randomUUID().toString(), Element::text));
-    }
-
-    protected Map<String, String> parseOptions(Document document) {
-        return document.select(site.getOptionsSelector()).stream()
-                .collect(Collectors.toMap(Element::text, element -> element.attr(site.getLinkAttrSelector())));
-    }
+		CrawlResult result = null;
+		for (String parameter : strings) {
+			try {
+				if (result == null || site.adjustUrl(result, parameter)) {
+					log.info("Crawling: " + site.getCurrentUrl());
+					Document document = Jsoup.connect(site.getCurrentUrl()).get();
+					result = site.parse(document, parameter);
+				}
+			} catch (IOException e) {
+				log.error(e.getMessage(), e);
+			}
+		}
+		return result;
+	}
 }
