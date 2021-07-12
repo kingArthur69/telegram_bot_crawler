@@ -2,16 +2,17 @@ package com.arthur.telegram.commands.service;
 
 import com.arthur.crawlers.CrawlResult;
 import com.arthur.crawlers.CrawlerService;
+import com.arthur.telegram.Bot;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
 public class CrawlCommand extends ServiceCommand {
-	private CrawlerService service;
+	private CrawlerService crawlerService;
 
 	public CrawlCommand(String identifier, String description) {
 		super(identifier, description);
-		service = new CrawlerService();
+		crawlerService = new CrawlerService();
 	}
 
 	@Override
@@ -19,13 +20,18 @@ public class CrawlCommand extends ServiceCommand {
 
 		CrawlResult result;
 		if (strings.length == 1) {
-			result = service.crawl(strings[0]);
+			result = crawlerService.crawl(strings[0]);
 		} else {
-			result = service.crawl(strings);
+			result = crawlerService.crawl(strings);
 		}
 
-		sendAnswer(absSender, chat.getId(), user.getUserName(), this.getCommandIdentifier(),
-				"Options: \n" + service.showOptions(result)
-						+ "\n<------->\nResults: \n" + service.showFoundObjects(result));
+		result.getFoundObjects().stream()
+				.limit(Bot.getUserSettings(chat.getId()).getResultsLimit())
+				.forEach(article ->
+						sendAnswer(absSender, chat.getId(), this.getCommandIdentifier(), user.getUserName(), article.toString())
+				);
+
+		sendAnswerWithKeyboard(absSender, chat.getId(), this.getCommandIdentifier(), user.getUserName(),
+				crawlerService.showOptionsNames(result), crawlerService.showOptionsKeyboard(result, this.getCommandIdentifier(), strings));
 	}
 }

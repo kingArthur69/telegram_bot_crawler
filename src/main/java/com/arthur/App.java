@@ -16,8 +16,7 @@ public class App {
 		try {
 
 			TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
-//            botsApi.registerBot(new Bot(getenv.get("BOT_NAME"), getenv.get("BOT_TOKEN")));
-			botsApi.registerBot(new Bot("makler_test_bot", "1891198885:AAHvEb1NMKpDdM5itAZqYE86_1A5JhZshow"));
+			botsApi.registerBot(new Bot(getenv.get("BOT_NAME"), getenv.get("BOT_TOKEN")));
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}

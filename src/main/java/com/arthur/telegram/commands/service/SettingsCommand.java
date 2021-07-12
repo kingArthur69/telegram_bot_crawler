@@ -23,7 +23,7 @@ public class SettingsCommand extends ServiceCommand {
 
 		Long chatId = chat.getId();
 		Settings settings = Bot.getUserSettings(chatId);
-		sendAnswer(absSender, chatId, this.getCommandIdentifier(), userName, "*Текущие настройки*" + settings.toString());
+		sendAnswer(absSender, chatId, this.getCommandIdentifier(), userName, "*Текущие настройки*:\n" + settings.toString());
 
 		log.debug(String.format("Пользователь %s. Завершено выполнение команды %s", userName,
 				this.getCommandIdentifier()));
